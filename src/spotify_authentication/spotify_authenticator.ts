@@ -32,3 +32,7 @@ export async function redirectToSpotifyAuth (): Promise<void> {
         console.error('Error during Spotify authentication redirect:', error);
     }
 }
+
+export function removeAccessToken (): void {
+    localStorage.removeItem('spotify_access_token');
+}
