@@ -1,0 +1,1 @@
+export const card_class = "cursor-default bg-gradient-to-br to-zinc-950 from-zinc-900 via-zinc-900 drop-shadow border border-zinc-600 w-1/2 flex flex-col py-5 px-8 rounded-md"

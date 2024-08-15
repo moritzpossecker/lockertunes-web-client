@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {callBack} from "@/spotify_authentication/callback.ts";
+import {callBack} from "@/layouts/spotify_authentication_src/callback.ts";
 import {Button} from "@/components/ui/button.tsx";
-import {redirectToSpotifyAuth, removeAccessToken} from "@/spotify_authentication/spotify_authenticator.ts";
+import {redirectToSpotifyAuth, removeAccessToken} from "@/layouts/spotify_authentication_src/spotify_authenticator.ts";
 import {CIcon} from "@coreui/icons-react";
 import {cibSpotify} from "@coreui/icons";
+import {card_class} from "@/components/custom-class-names.ts"
 
 interface SpotifyAuthenticationCardProps {
     isConnected: boolean;
@@ -45,12 +46,12 @@ const SpotifyAuthenticationCard: React.FC<SpotifyAuthenticationCardProps> = ({ i
 
     return (
         <div
-            className="cursor-default bg-gradient-to-br to-zinc-950 from-zinc-900 via-zinc-900 drop-shadow border border-zinc-600 w-1/2 h-52 flex flex-col py-10 px-8 rounded-md">
+            className={card_class + "h28"}>
             {isConnected ? (
                 <div className="flex flex-col justify-between h-full">
-                    <p className="text-5xl text-zinc-50 font-bold">Hello, {userName}!</p>
-                    <div className="flex justify-between">
-                        <p className="text-3xl text-zinc-300">Let's get started.</p>
+                    <h1 className="text-3xl text-zinc-50 font-bold">Hello, {userName}!</h1>
+                    <div className="flex justify-between items-baseline">
+                        <p className="text-lg text-zinc-300">Let's get started.</p>
                         <Button
                             className="bg-red-600 text-zinc-50 py-2 px-4 rounded hover:bg-red-700"
                             onClick={disconnectFromSpotify}>
@@ -62,9 +63,9 @@ const SpotifyAuthenticationCard: React.FC<SpotifyAuthenticationCardProps> = ({ i
                 <div className="flex items-center justify-center h-full">
                     <Button
                         onClick={redirectToSpotifyAuth}
-                        className="bg-green-500 text-zinc-50 py-8 px-12 text-xl rounded hover:bg-green-600"
+                        className="bg-green-600 text-zinc-50 py-2 px-4 rounded hover:bg-green-700"
                     >
-                        <CIcon icon={cibSpotify} className="mr-4 h-8 w-8 fill-zinc-50"/> Connect to Spotify
+                        <CIcon icon={cibSpotify} className="mr-2 h-4 w-4 fill-zinc-50"/> Connect to Spotify
                     </Button>
                 </div>
             )}
