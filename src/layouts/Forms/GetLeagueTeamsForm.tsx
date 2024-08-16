@@ -6,15 +6,15 @@ import {useFetchTeams} from "@/layouts/Forms/fussballde_src/api_client.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
 import {z} from "zod"
-import LoadingSpinner from "@/layouts/LoadingSpinner.tsx";
-import {MagnifyingGlassIcon} from "@radix-ui/react-icons";
+import {CheckCircledIcon, MagnifyingGlassIcon, SymbolIcon} from "@radix-ui/react-icons";
 import {card_class} from "@/components/custom-class-names.ts";
 
 interface GetTeamFormProps {
     setTeams: (value: string[]) => void;
+    teams: string[];
 }
 
-const GetLeagueTeamsForm: React.FC<GetTeamFormProps> = ({setTeams}) => {
+const GetLeagueTeamsForm: React.FC<GetTeamFormProps> = ({teams, setTeams}) => {
     const {loading, error, fetchTeams} = useFetchTeams(setTeams);
     const formSchema = z.object({
         leagueUrl: z.string()
@@ -41,19 +41,27 @@ const GetLeagueTeamsForm: React.FC<GetTeamFormProps> = ({setTeams}) => {
                         render={({field}) => (
                             <FormItem>
                                 <FormLabel>Find your team</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="https://www.fussball.de/your-league" {...field} />
-                                </FormControl>
+                                <div className="flex gap-2">
+                                    <FormControl>
+                                        <Input placeholder="https://www.fussball.de/your-league" {...field} />
+                                    </FormControl>
+                                    <Button type="submit">{loading ?
+                                        <SymbolIcon className="animate-spin"/> :
+                                        <MagnifyingGlassIcon/>}</Button>
+                                </div>
                                 <FormDescription>
                                     Find your team by first pasting the URL of your league.
                                 </FormDescription>
                                 {error != '' &&
                                     <FormMessage>{error}</FormMessage>
                                 }
+                                {teams.length > 0 &&
+                                    <FormMessage className="flex text-green-600 items-center"><CheckCircledIcon
+                                        className="mr-2"/> {teams.length} teams found.</FormMessage>
+                                }
                             </FormItem>
                         )}
                     />
-                    <Button type="submit">{loading ? <LoadingSpinner /> : <MagnifyingGlassIcon/>}</Button>
                 </form>
             </Form>
         </div>
