@@ -28,21 +28,20 @@ import {
 import {CheckCircledIcon} from "@radix-ui/react-icons";
 import {cn} from "@/lib/utils.ts";
 import {Check, ChevronsUpDown} from "lucide-react";
+import {TEAM_NAME_KEY} from "@/layouts/Forms/fussballde_src/constants.ts";
 
 interface GetTeamFormProps {
     teams: string[];
-    setTeam: (value: string) => void;
-    team: string;
 }
 
-const GetTeamForm: React.FC<GetTeamFormProps> = ({teams, team, setTeam}) => {
+const GetTeamForm: React.FC<GetTeamFormProps> = ({teams}) => {
     const formSchema = z.object({
         team: z.string()
     })
 
     function handleSubmit(values: z.infer<typeof formSchema>) {
         console.log(values.team);
-        setTeam(values.team);
+        sessionStorage.setItem(TEAM_NAME_KEY, values.team);
     }
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -114,9 +113,9 @@ const GetTeamForm: React.FC<GetTeamFormProps> = ({teams, team, setTeam}) => {
                                 <FormDescription>
                                     Select your team from the dropdown.
                                 </FormDescription>
-                                {team != '' &&
+                                {sessionStorage.getItem(TEAM_NAME_KEY) != '' &&
                                     <FormMessage className="flex text-green-600 items-center"><CheckCircledIcon
-                                        className="mr-2"/> {team} was selected.</FormMessage>
+                                        className="mr-2"/> {sessionStorage.getItem(TEAM_NAME_KEY)} was selected.</FormMessage>
                                 }
                             </FormItem>
                         )}

@@ -2,7 +2,7 @@ import {GET_TEAMS_URL} from "@/layouts/Forms/fussballde_src/constants.ts";
 
 import {useState} from 'react';
 
-export const useFetchTeams = (setTeams) => {
+export const useFetchTeams = (setTeams: (value: string[]) => void) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 

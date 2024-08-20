@@ -8,6 +8,7 @@ import {useForm} from "react-hook-form";
 import {z} from "zod"
 import {CheckCircledIcon, MagnifyingGlassIcon, SymbolIcon} from "@radix-ui/react-icons";
 import {card_class} from "@/components/custom-class-names.ts";
+import {LEAGUE_URL_KEY} from "@/layouts/Forms/fussballde_src/constants.ts";
 
 interface GetTeamFormProps {
     setTeams: (value: string[]) => void;
@@ -20,7 +21,8 @@ const GetLeagueTeamsForm: React.FC<GetTeamFormProps> = ({teams, setTeams}) => {
         leagueUrl: z.string()
     })
 
-    async function handelSubmit(values: z.infer<typeof formSchema>) {
+    async function handleSubmit(values: z.infer<typeof formSchema>) {
+        sessionStorage.setItem(LEAGUE_URL_KEY, values.leagueUrl);
         await fetchTeams(values.leagueUrl);
     }
 
@@ -34,7 +36,7 @@ const GetLeagueTeamsForm: React.FC<GetTeamFormProps> = ({teams, setTeams}) => {
     return (
         <div className={card_class}>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(handelSubmit)} className="space-y-8">
+                <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
                     <FormField
                         control={form.control}
                         name="leagueUrl"
