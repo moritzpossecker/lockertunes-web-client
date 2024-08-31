@@ -2,7 +2,7 @@ import GetLeagueTeamsForm from "@/layouts/Forms/GetLeagueTeamsForm.tsx";
 import {useState} from "react";
 import GetTeamForm from "@/layouts/Forms/GetTeamForm.tsx";
 import {TEAM_NAME_KEY} from "@/layouts/Forms/fussballde_src/constants.ts";
-import GetPlaylistInfo from "@/layouts/Forms/GetPlaylistInfo.tsx";
+import GetPlaylistInfo from "@/layouts/Forms/playlist_info/GetPlaylistInfo.tsx";
 
 const LockerTunesForm = () => {
     const [teams, setTeams] = useState<string[]>([]);
