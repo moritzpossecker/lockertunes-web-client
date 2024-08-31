@@ -7,21 +7,18 @@ import {
     FormControl,
     FormField,
     FormItem,
-    FormLabel,
+    FormLabel, FormMessage,
 } from "@/components/ui/form.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {Card, CardContent} from "@/components/ui/card"
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-} from "@/components/ui/carousel"
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.tsx";
 import {cn} from "@/lib/utils.ts";
 import {Check, ChevronsUpDown} from "lucide-react";
 import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from "@/components/ui/command.tsx";
+import TeamsCarousel from "@/layouts/Forms/playlist_info/TeamsCarousel.tsx";
+import {useState} from "react";
+import {Match} from "@/models/Match.ts";
+import {useFetchMatches} from "@/layouts/Forms/fussballde_src/matches_api_client.ts";
+import {LEAGUE_URL_KEY, TEAM_NAME_KEY} from "@/layouts/Forms/fussballde_src/constants.ts";
 
 const game_span_options = [
     {value: 1, label: 'the next game.'},
@@ -32,22 +29,33 @@ const game_span_options = [
 ]
 
 const GetPlaylistInfo = () => {
+    const defaultGameSpan = 5;
+
+    const [matches, setMatches] = useState<Match[]>([])
+
+    const {loading, error, fetchMatches} = useFetchMatches(setMatches);
+
     const formSchema = z.object({
         game_span: z.number(),
         playlist_name: z.string(),
         playlist_length: z.number()
     })
 
-    function handleSubmit(values: z.infer<typeof formSchema>) {
-        //todo fetch data from API
+    async function handleSubmit(values: z.infer<typeof formSchema>) {
+        await fetchMatches(
+            sessionStorage.getItem(LEAGUE_URL_KEY) ?? '',
+            sessionStorage.getItem(TEAM_NAME_KEY) ?? '',
+            values.game_span
+        )
         console.log(values.game_span)
+        console.log(matches)
     }
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         mode: "onSubmit",
         defaultValues: {
-            game_span: 5,
+            game_span: defaultGameSpan,
             playlist_name: '',
             playlist_length: 30
         },
@@ -56,7 +64,8 @@ const GetPlaylistInfo = () => {
     return (
         <div className={card_class}>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
+                <form onSubmit={form.handleSubmit(handleSubmit)} onLoad={form.handleSubmit(handleSubmit)}
+                      className="space-y-8">
                     <FormField
                         control={form.control}
                         name="game_span"
@@ -98,7 +107,7 @@ const GetPlaylistInfo = () => {
                                                                     key={game_span_option.value}
                                                                     onSelect={() => {
                                                                         form.setValue("game_span", game_span_option.value)
-                                                                        console.log(form.getValues().game_span)
+                                                                        handleSubmit(form.getValues())
                                                                     }}
                                                                 >
                                                                     <Check
@@ -119,28 +128,17 @@ const GetPlaylistInfo = () => {
                                         </Popover>
                                     </FormControl>
                                 </div>
+                                {error != '' &&
+                                    <FormMessage>{error}</FormMessage>
+                                }
                             </FormItem>
                         )}
                     />
-                    <Carousel className="w-full">
-                        <CarouselContent className="-ml-1">
-                            {Array.from({length: form.getValues().game_span}).map((_, index) => (
-                                <CarouselItem key={index} className="pl-1 md:basis-1/2 lg:basis-1/3">
-                                    <div className="p-1">
-                                        <Card>
-                                            <CardContent className="flex aspect-square items-center justify-center p-6">
-                                                <span className="text-2xl font-semibold">{index + 1}</span>
-                                            </CardContent>
-                                        </Card>
-                                    </div>
-                                </CarouselItem>
-                            ))}
-                        </CarouselContent>
-                        <CarouselPrevious/>
-                        <CarouselNext/>
-                    </Carousel>
                 </form>
             </Form>
+            {matches.length > 0 &&
+                <TeamsCarousel matches={matches} loading={loading}/>
+            }
         </div>
     );
 };
