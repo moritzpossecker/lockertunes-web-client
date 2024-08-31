@@ -2,7 +2,7 @@ import React from 'react';
 import {Form, FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescription} from "@/components/ui/form"
 import {Button} from "@/components/ui/button"
 import {Input} from "@/components/ui/input"
-import {useFetchTeams} from "@/layouts/Forms/fussballde_src/api_client.ts";
+import {useFetchTeams} from "@/layouts/Forms/fussballde_src/teams_api_client.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
 import {z} from "zod"
