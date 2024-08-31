@@ -1,1 +1,1 @@
-export const card_class = "cursor-default bg-gradient-to-br to-gray-950 from-gray-900 via-gray-900 drop-shadow border border-gray-600 w-1/2 flex flex-col py-5 px-8 rounded-md"
+export const card_class = "backdrop-blur-sm cursor-default bg-gradient-to-br to-gray-950/[0.6] from-gray-900/[0.6] via-gray-900/[0.6] drop-shadow w-1/2 flex flex-col py-5 px-8 rounded-md"
