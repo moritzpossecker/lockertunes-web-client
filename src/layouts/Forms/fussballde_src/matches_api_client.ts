@@ -3,25 +3,26 @@ import {GET_MATCHES_URL} from "@/layouts/Forms/fussballde_src/constants.ts";
 import {useState} from 'react';
 import {Match} from "@/models/Match.ts";
 
-export const useFetchMatches = (setMatches: (value: Match[]) => void) => {
+export const useFetchMatches = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
-    const fetchMatches = async (leagueUrl: string, teamName: string, gameSpan: number) => {
+    const fetchMatches = async (leagueUrl: string, teamName: string, gameSpan: number):Promise<Match[]> => {
         setLoading(true);
         setError('');
+        let response
         try {
-            const response = await get_matches(leagueUrl, teamName, gameSpan);
+            response = await get_matches(leagueUrl, teamName, gameSpan);
             if(response.length == 0){
                 setError("Couldn't find matches. Please check the URL and selected team and try again.")
             }
-            setMatches(response);
         } catch (err) {
             console.log(err);
             setError('Failed to fetch matches. Please check the URL and selected team and try again.');
         } finally {
             setLoading(false);
         }
+        return response
     };
 
     return {loading, error, fetchMatches};
