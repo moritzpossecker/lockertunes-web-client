@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/carousel.tsx'
 import { Card, CardContent } from '@/components/ui/card.tsx'
 import React, { useState } from 'react'
-import { Match } from '@/models/Match.ts'
+import { IMatch } from '@/models/IMatch.ts'
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -20,10 +20,10 @@ import {
 import { Button } from '@/components/ui/button.tsx'
 import { card_class, card_width } from '@/components/custom-class-names.ts'
 
-interface TeamsCarousel {
+interface ITeamsCarousel {
   changeProgress: (value: boolean) => void
-  matches: Match[]
-  setMatches: (value: Match[]) => void
+  matches: IMatch[]
+  setMatches: (value: IMatch[]) => void
 }
 
 function getMatchDayString(matchDay: number): string {
@@ -33,22 +33,22 @@ function getMatchDayString(matchDay: number): string {
   return matchDay + 'th'
 }
 
-const TeamsCarousel: React.FC<TeamsCarousel> = ({
+const TeamsCarousel: React.FC<ITeamsCarousel> = ({
   changeProgress,
   matches,
   setMatches,
 }) => {
-  const [originalMatches] = useState<Match[]>([...matches])
+  const [originalMatches] = useState<IMatch[]>([...matches])
 
-  function removeMatch(matchDay: number) {
+  function removeMatch(matchDay: number) : void {
     setMatches(matches.filter((match) => match.match_day !== matchDay))
   }
 
-  function resetMatches() {
+  function resetMatches() : void {
     setMatches([...originalMatches])
   }
 
-  function resetForm() {
+  function resetForm() : void {
     setMatches([])
     changeProgress(false)
   }

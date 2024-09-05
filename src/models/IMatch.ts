@@ -1,4 +1,4 @@
-export interface Match {
+export interface IMatch {
   home_game: boolean
   match_day: number
   opponent: string

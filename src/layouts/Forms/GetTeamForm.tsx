@@ -29,14 +29,14 @@ import { Check, ChevronsUpDown } from 'lucide-react'
 import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons'
 import { card_class, card_width } from '@/components/custom-class-names.ts'
 
-interface GetTeamFormProps {
+interface IGetTeamFormProps {
   changeProgress: (value: boolean) => void
   teams: string[]
   team: string
   setTeam: (value: string) => void
 }
 
-const GetTeamForm: React.FC<GetTeamFormProps> = ({
+const GetTeamForm: React.FC<IGetTeamFormProps> = ({
   changeProgress,
   teams,
   team,
@@ -55,7 +55,7 @@ const GetTeamForm: React.FC<GetTeamFormProps> = ({
     },
   })
 
-  function resetForm() {
+  function resetForm() : void {
     setTeam('')
     changeProgress(false)
   }

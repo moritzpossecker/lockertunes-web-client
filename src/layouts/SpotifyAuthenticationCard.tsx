@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from 'react'
-import { callBack } from '@/layouts/spotify_authentication_src/callback.ts'
+import { callBack } from '@/lib/spotify-authentication-src/callBack.ts'
 import { Button } from '@/components/ui/button.tsx'
 import {
   redirectToSpotifyAuth,
   removeAccessToken,
-} from '@/layouts/spotify_authentication_src/spotify_authenticator.ts'
+} from '@/lib/spotify-authentication-src/spotifyAuthenticator.ts'
 import { CIcon } from '@coreui/icons-react'
 import { cibSpotify } from '@coreui/icons'
 import { card_class } from '@/components/custom-class-names.ts'
 
-interface SpotifyAuthenticationCardProps {
+interface ISpotifyAuthenticationCardProps {
   isConnected: boolean
   setIsConnected: (value: boolean) => void
 }
 
-const SpotifyAuthenticationCard: React.FC<SpotifyAuthenticationCardProps> = ({
+const SpotifyAuthenticationCard: React.FC<ISpotifyAuthenticationCardProps> = ({
   isConnected,
   setIsConnected,
 }) => {
   const [userName, setUserName] = useState<string | null>(null)
 
-  const checkConnection = () => {
+  const checkConnection = () : void => {
     const token = localStorage.getItem('spotify_access_token')
     if (token) {
       setIsConnected(true)
@@ -32,18 +32,18 @@ const SpotifyAuthenticationCard: React.FC<SpotifyAuthenticationCardProps> = ({
     }
   }
 
-  const disconnectFromSpotify = () => {
+  const disconnectFromSpotify = () : void => {
     removeAccessToken()
     checkConnection()
   }
 
   useEffect(() => {
-    const handleCallback = async () => {
+    const handleCallback = async () : Promise<void> => {
       await callBack()
       checkConnection()
     }
 
-    handleCallback().catch((error) => {
+    handleCallback().catch((error) : void => {
       console.error('Error handling callback:', error)
     })
 

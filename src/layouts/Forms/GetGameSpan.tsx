@@ -26,8 +26,8 @@ import {
   CommandList,
 } from '@/components/ui/command.tsx'
 import React from 'react'
-import { Match } from '@/models/Match.ts'
-import { useFetchMatches } from '@/layouts/Forms/fussballde_src/matches_api_client.ts'
+import { IMatch } from '@/models/IMatch.ts'
+import { useFetchMatches } from '@/lib/fussballde-src/matchesApiClient.ts'
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -35,7 +35,7 @@ import {
 } from '@radix-ui/react-icons'
 import { card_class, card_width } from '@/components/custom-class-names.ts'
 
-const game_span_options = [
+const gameSpanOptions = [
   { value: 1, label: 'the next game.' },
   { value: 3, label: 'the 3 next games.' },
   { value: 5, label: 'the 5 next games.' },
@@ -43,14 +43,14 @@ const game_span_options = [
   { value: 1000, label: 'the full season.' },
 ]
 
-interface GetGameSpanProps {
-  changeProgress: (value: boolean) => void
-  setMatches: (value: Match[]) => void
+interface IGetGameSpanProps {
+  changeProgress: (_value: boolean) => void
+  setMatches: (_value: IMatch[]) => void
   team: string
   leagueUrl: string
 }
 
-const GetGameSpan: React.FC<GetGameSpanProps> = ({
+const GetGameSpan: React.FC<IGetGameSpanProps> = ({
   changeProgress,
   setMatches,
   team,
@@ -63,7 +63,7 @@ const GetGameSpan: React.FC<GetGameSpanProps> = ({
     game_span: z.number(),
   })
 
-  async function handleSubmit(values: z.infer<typeof formSchema>) {
+  async function handleSubmit(values: z.infer<typeof formSchema>): Promise<void> {
     const matches = await fetchMatches(leagueUrl, team, values.game_span)
 
     if (error == '' && matches.length > 0) {
@@ -106,9 +106,9 @@ const GetGameSpan: React.FC<GetGameSpanProps> = ({
                               )}
                             >
                               {field.value
-                                ? game_span_options.find(
-                                    (game_span_option) =>
-                                      game_span_option.value === field.value
+                                ? gameSpanOptions.find(
+                                    (gameSpanOption) =>
+                                      gameSpanOption.value === field.value
                                   )?.label
                                 : 'Select game span'}
                               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -121,26 +121,26 @@ const GetGameSpan: React.FC<GetGameSpanProps> = ({
                             <CommandList>
                               <CommandEmpty>No game span found.</CommandEmpty>
                               <CommandGroup>
-                                {game_span_options.map((game_span_option) => (
+                                {gameSpanOptions.map((gameSpanOption) => (
                                   <CommandItem
-                                    value={game_span_option.label}
-                                    key={game_span_option.value}
+                                    value={gameSpanOption.label}
+                                    key={gameSpanOption.value}
                                     onSelect={() => {
                                       form.setValue(
                                         'game_span',
-                                        game_span_option.value
+                                        gameSpanOption.value
                                       )
                                     }}
                                   >
                                     <Check
                                       className={cn(
                                         'mr-2 h-4 w-4',
-                                        game_span_option.value === field.value
+                                        gameSpanOption.value === field.value
                                           ? 'opacity-100'
                                           : 'opacity-0'
                                       )}
                                     />
-                                    {game_span_option.label}
+                                    {gameSpanOption.label}
                                   </CommandItem>
                                 ))}
                               </CommandGroup>

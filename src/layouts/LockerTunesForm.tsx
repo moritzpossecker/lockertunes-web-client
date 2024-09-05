@@ -1,18 +1,18 @@
-import GetLeagueTeamsForm from '@/layouts/Forms/GetLeagueTeamsForm.tsx'
-import { useState } from 'react'
-import GetTeamForm from '@/layouts/Forms/GetTeamForm.tsx'
-import GetGameSpan from '@/layouts/Forms/GetGameSpan.tsx'
-import { Match } from '@/models/Match.ts'
-import TeamsCarousel from '@/layouts/Forms/TeamsCarousel.tsx'
+import GetLeagueTeamsForm from '@/layouts/forms/GetLeagueTeamsForm.tsx'
+import { ReactElement, useState } from 'react'
+import GetTeamForm from '@/layouts/forms/GetTeamForm.tsx'
+import GetGameSpan from '@/layouts/forms/GetGameSpan.tsx'
+import { IMatch } from '@/models/IMatch.ts'
+import TeamsCarousel from '@/layouts/forms/TeamsCarousel.tsx'
 
-const LockerTunesForm = () => {
+const LockerTunesForm = () : ReactElement => {
   const [progress, setProgress] = useState<number>(0)
   const [teams, setTeams] = useState<string[]>([])
   const [leagueUrl, setLeagueUrl] = useState<string>('')
   const [team, setTeam] = useState<string>('')
-  const [matches, setMatches] = useState<Match[]>([])
+  const [matches, setMatches] = useState<IMatch[]>([])
 
-  const changeProgress = (increase: boolean) => {
+  const changeProgress = (increase: boolean) : void => {
     if (increase) {
       setProgress(progress + 1)
       return

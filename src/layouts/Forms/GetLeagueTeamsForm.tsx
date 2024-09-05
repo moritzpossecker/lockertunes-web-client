@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { useFetchTeams } from '@/layouts/Forms/fussballde_src/teams_api_client.ts'
+import { useFetchTeams } from '@/lib/fussballde-src/teamsApiClient.ts'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -22,7 +22,7 @@ import {
 } from '@radix-ui/react-icons'
 import { card_class, card_width } from '@/components/custom-class-names.ts'
 
-interface GetLeagueTeamsProps {
+interface IGetLeagueTeamsProps {
   changeProgress: (value: boolean) => void
   teams: string[]
   setTeams: (value: string[]) => void
@@ -30,7 +30,7 @@ interface GetLeagueTeamsProps {
   setLeagueUrl: (value: string) => void
 }
 
-const GetLeagueTeamsForm: React.FC<GetLeagueTeamsProps> = ({
+const GetLeagueTeamsForm: React.FC<IGetLeagueTeamsProps> = ({
   changeProgress,
   teams,
   setTeams,
@@ -42,7 +42,7 @@ const GetLeagueTeamsForm: React.FC<GetLeagueTeamsProps> = ({
     leagueUrl: z.string(),
   })
 
-  async function handleSubmit(values: z.infer<typeof formSchema>) {
+  async function handleSubmit(values: z.infer<typeof formSchema>) : Promise<void> {
     setLeagueUrl(values.leagueUrl)
     const teams = await fetchTeams(values.leagueUrl)
     setTeams(teams)
