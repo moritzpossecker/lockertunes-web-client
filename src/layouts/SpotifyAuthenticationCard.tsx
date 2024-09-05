@@ -46,7 +46,7 @@ const SpotifyAuthenticationCard: React.FC<SpotifyAuthenticationCardProps> = ({ i
 
     return (
         <div
-            className={card_class + "h28"}>
+            className={card_class + "h28 mb-5"}>
             {isConnected ? (
                 <div className="flex flex-col justify-between h-full">
                     <h1 className="text-3xl text-gray-50 font-bold">Hello, {userName}!</h1>
