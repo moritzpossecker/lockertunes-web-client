@@ -25,7 +25,7 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command.tsx'
-import React from 'react'
+import React, { useState } from 'react'
 import { IMatch } from '@/models/IMatch.ts'
 import { useFetchMatches } from '@/lib/fussballde-src/matchesApiClient.ts'
 import {
@@ -51,13 +51,14 @@ interface IGetGameSpanProps {
 }
 
 const GetGameSpan: React.FC<IGetGameSpanProps> = ({
-  changeProgress,
-  setMatches,
-  team,
-  leagueUrl,
-}) => {
+                                                    changeProgress,
+                                                    setMatches,
+                                                    team,
+                                                    leagueUrl,
+                                                  }) => {
   const defaultGameSpan = 5
   const { loading, error, fetchMatches } = useFetchMatches()
+  const [open, setOpen] = useState(false)
 
   const formSchema = z.object({
     game_span: z.number(),
@@ -94,7 +95,7 @@ const GetGameSpan: React.FC<IGetGameSpanProps> = ({
                   <FormControl>
                     <div className="flex gap-2 w-full items-center">
                       <div className="w-fit">Create playlists for</div>
-                      <Popover>
+                      <Popover open={open} onOpenChange={setOpen}>
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
@@ -102,14 +103,14 @@ const GetGameSpan: React.FC<IGetGameSpanProps> = ({
                               role="combobox"
                               className={cn(
                                 'justify-between',
-                                !field.value && 'text-muted-foreground'
+                                !field.value && 'text-muted-foreground',
                               )}
                             >
                               {field.value
                                 ? gameSpanOptions.find(
-                                    (gameSpanOption) =>
-                                      gameSpanOption.value === field.value
-                                  )?.label
+                                  (gameSpanOption) =>
+                                    gameSpanOption.value === field.value,
+                                )?.label
                                 : 'Select game span'}
                               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                             </Button>
@@ -128,8 +129,9 @@ const GetGameSpan: React.FC<IGetGameSpanProps> = ({
                                     onSelect={() => {
                                       form.setValue(
                                         'game_span',
-                                        gameSpanOption.value
+                                        gameSpanOption.value,
                                       )
+                                      setOpen(false)
                                     }}
                                   >
                                     <Check
@@ -137,7 +139,7 @@ const GetGameSpan: React.FC<IGetGameSpanProps> = ({
                                         'mr-2 h-4 w-4',
                                         gameSpanOption.value === field.value
                                           ? 'opacity-100'
-                                          : 'opacity-0'
+                                          : 'opacity-0',
                                       )}
                                     />
                                     {gameSpanOption.label}
