@@ -1,9 +1,9 @@
-import GetLeagueTeamsForm from '@/layouts/forms/GetLeagueTeamsForm.tsx'
+import GetLeagueTeamsForm from '@/layouts/football-forms/GetLeagueTeamsForm.tsx'
 import { ReactElement, useState } from 'react'
-import GetTeamForm from '@/layouts/forms/GetTeamForm.tsx'
-import GetGameSpan from '@/layouts/forms/GetGameSpan.tsx'
+import GetTeamForm from '@/layouts/football-forms/GetTeamForm.tsx'
+import GetGameSpan from '@/layouts/football-forms/GetGameSpan.tsx'
 import { IMatch } from '@/models/IMatch.ts'
-import TeamsCarousel from '@/layouts/forms/TeamsCarousel.tsx'
+import TeamsCarousel from '@/layouts/football-forms/TeamsCarousel.tsx'
 
 const LockerTunesForm = () : ReactElement => {
   const [progress, setProgress] = useState<number>(0)
