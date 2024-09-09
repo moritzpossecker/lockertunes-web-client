@@ -5,6 +5,9 @@ import GetGameSpan from '@/layouts/football-forms/GetGameSpan.tsx'
 import { IMatch } from '@/models/IMatch.ts'
 import TeamsCarousel from '@/layouts/football-forms/TeamsCarousel.tsx'
 import GetPlaylistDuration from '@/layouts/playlist-forms/GetPlaylistDuration.tsx'
+import GetPlaylistMetadata from '@/layouts/playlist-forms/GetPlaylistMetadata.tsx'
+import GetRequiredTracks from '@/layouts/playlist-forms/GetRequiredTracks.tsx'
+import { ITrack } from '@/models/ITrack.ts'
 
 const LockerTunesForm = (): ReactElement => {
   const [progress, setProgress] = useState<number>(0)
@@ -13,6 +16,11 @@ const LockerTunesForm = (): ReactElement => {
   const [team, setTeam] = useState<string>('')
   const [matches, setMatches] = useState<IMatch[]>([])
   const [playlistDuration, setPlaylistDuration] = useState<number>(30)
+  const [playlistName, setPlaylistName] = useState<string>('')
+  const [playlistDescription, setPlaylistDescription] = useState<string>('')
+  const [homeGameString, setHomeGameString] = useState<string>('Home')
+  const [awayGameString, setAwayGameString] = useState<string>('Away')
+  const [requiredTracks, setRequiredTracks] = useState<ITrack[]>([])
 
   const changeProgress = (increase: boolean): void => {
     if (increase) {
@@ -63,6 +71,26 @@ const LockerTunesForm = (): ReactElement => {
           playlistDuration={playlistDuration}
           setPlaylistDuration={setPlaylistDuration}
         />
+      )}
+      {progress == 5 && (
+        <GetPlaylistMetadata
+          changeProgress={changeProgress}
+          match={matches[0]}
+          playlistName={playlistName}
+          setPlaylistName={setPlaylistName}
+          playlistDescription={playlistDescription}
+          setPlaylistDescription={setPlaylistDescription}
+          homeGameString={homeGameString}
+          setHomeGameString={setHomeGameString}
+          awayGameString={awayGameString}
+          setAwayGameString={setAwayGameString}
+        />
+      )}
+      {progress == 6 && (
+        <GetRequiredTracks
+          changeProgress={changeProgress}
+          tracks={requiredTracks}
+          setTracks={setRequiredTracks}/>
       )}
     </>
   )
